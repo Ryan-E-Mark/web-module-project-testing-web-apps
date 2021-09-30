@@ -112,9 +112,12 @@ test('renders all firstName, lastName and email text when submitted. Does NOT re
     const submitButton = screen.getByRole("button");
     userEvent.click(submitButton);
 
-    const messageText = screen.getByText(/message:/i);
+    // const messageText = screen.getByTestId(/messageDisplay/i);
+    // userEvent.type(messageText, "");
+
+    const displayedMessage = screen.queryByText(/message:/i);
     //Assert
-    expect(messageText).toBeFalsy();
+    expect(displayedMessage).toBeNull();
 });
 
 test('renders all fields text when all fields are submitted.', async () => {
