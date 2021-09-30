@@ -9,11 +9,27 @@ test('renders without errors', ()=>{
 });
 
 test('renders the contact form header', ()=> {
-    
+    //Arrange
+    render(<ContactForm />)
+    //Act
+    const formHeader = screen.getByText(/contact form/i);
+    //Assert
+    expect(formHeader).toBeInTheDocument();
+    expect(formHeader).toHaveTextContent("Contact Form");
+
 });
 
 test('renders ONE error message if user enters less then 5 characters into firstname.', async () => {
-    
+    //Arrange
+    render(<ContactForm />)
+    //Act 
+    const firstNameInput = screen.getByPlaceholderText(/edd/i);
+    userEvent.type(firstNameInput, "Ry");
+
+    const firstNameError = screen.getByText(/error: firstname must have at least 5 characters./i);
+    //Assert
+    expect(firstNameError).toBeInTheDocument();
+    expect(firstNameError).toHaveTextContent(/error: firstname must have at least 5 characters./i);
 });
 
 test('renders THREE error messages if user enters no values into any fields.', async () => {
