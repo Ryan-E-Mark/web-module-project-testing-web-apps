@@ -112,9 +112,6 @@ test('renders all firstName, lastName and email text when submitted. Does NOT re
     const submitButton = screen.getByRole("button");
     userEvent.click(submitButton);
 
-    // const messageText = screen.getByTestId(/messageDisplay/i);
-    // userEvent.type(messageText, "");
-
     const displayedMessage = screen.queryByText(/message:/i);
     //Assert
     expect(displayedMessage).toBeNull();
@@ -124,15 +121,37 @@ test('renders all fields text when all fields are submitted.', async () => {
     //Arrange
     render(<ContactForm />)
     //Act
-    // const firstNameInput = screen.getByPlaceholderText(/edd/i);
-    // userEvent.type(firstNameInput, "Robert");
+    const firstNameInput = screen.getByPlaceholderText(/edd/i);
+    userEvent.type(firstNameInput, "Robert");
 
-    // const lastNameInput = screen.getByPlaceholderText(/burke/i);
-    // userEvent.type(lastNameInput, "Williamson");
+    const lastNameInput = screen.getByPlaceholderText(/burke/i);
+    userEvent.type(lastNameInput, "Williamson");
 
-    // const emailInput = screen.getByPlaceholderText(/bluebill1049@hotmail.com/i);
-    // userEvent.type(emailInput, "something@something.com");
+    const emailInput = screen.getByPlaceholderText(/bluebill1049@hotmail.com/i);
+    userEvent.type(emailInput, "something@something.com");
 
-    // const submitButton = screen.getByRole("button");
-    // userEvent.click(submitButton);
+    const messageInput = screen.queryByLabelText(/message/i);
+    userEvent.type(messageInput, "This is a message");
+
+    const submitButton = screen.getByRole("button");
+    userEvent.click(submitButton);
+
+    const firstNameText = screen.getByTestId("firstnameDisplay");
+    const lastNameText = screen.getByTestId("lastnameDisplay");
+    const emailText = screen.getByTestId("emailDisplay");
+    const messageText = screen.getByTestId("messageDisplay");
+
+    //Assert
+    expect(firstNameText).toBeInTheDocument();
+    expect(firstNameText).toHaveTextContent("First Name: Robert");
+
+    expect(lastNameText).toBeInTheDocument();
+    expect(lastNameText).toHaveTextContent("Last Name: Williamson");
+
+    expect(emailText).toBeInTheDocument();
+    expect(emailText).toHaveTextContent("Email: something@something.com");
+
+    expect(messageText).toBeInTheDocument();
+    expect(messageText).toHaveTextContent("Message: This is a message");
+
 });
